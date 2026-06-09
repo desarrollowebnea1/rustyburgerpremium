@@ -1,3 +1,5 @@
+import type { RustyBrandStickerVariant } from "@/components/motion/RustyBrandStickerArt";
+
 export type LocalImage = {
   src: string;
   alt: string;
@@ -8,18 +10,14 @@ export const BARRA_SHOT: LocalImage = {
   alt: "Rusty Food House — fachada del local",
 };
 
-/** 3 stickers limpios — PNG transparente, sin fondo de madera */
-export const CARTELES_SHOTS: LocalImage[] = [
-  {
-    src: "/rusty/stickers/sticker-feast-mode.png?v=8",
-    alt: "Sticker Feast Mode On",
-  },
-  {
-    src: "/rusty/stickers/sticker-r-fire.png?v=8",
-    alt: "Sticker La R",
-  },
-  {
-    src: "/rusty/stickers/sticker-zero-regrets.png?v=8",
-    alt: "Sticker Zero Regrets",
-  },
+export type CartelSticker = {
+  variant: RustyBrandStickerVariant;
+  alt: string;
+};
+
+/** 3 stickers SVG — panel experiencia */
+export const CARTELES_STICKERS: CartelSticker[] = [
+  { variant: "feast-mode", alt: "Sticker Feast Mode On" },
+  { variant: "r-fire", alt: "Sticker La R" },
+  { variant: "zero-regrets", alt: "Sticker Zero Regrets" },
 ];

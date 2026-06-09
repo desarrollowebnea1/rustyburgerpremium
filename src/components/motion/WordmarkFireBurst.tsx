@@ -28,8 +28,6 @@ type WordmarkFireBurstProps = {
   active: boolean;
   width: number;
   height: number;
-  /** 0–1 — bajo = brasa ambiental, alto = hover intenso */
-  intensity?: number;
 };
 
 function drawFlameLick(
@@ -93,12 +91,7 @@ function drawEmber(
 }
 
 /** Fuego canvas premium — columnas + brasas, blend additive */
-export function WordmarkFireBurst({
-  active,
-  width,
-  height,
-  intensity = 1,
-}: WordmarkFireBurstProps) {
+export function WordmarkFireBurst({ active, width, height }: WordmarkFireBurstProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const embersRef = useRef<Ember[]>([]);
   const licksRef = useRef<FlameLick[]>([]);
@@ -135,25 +128,23 @@ export function WordmarkFireBurst({
     const tick = () => {
       tickRef.current += 1;
       const t = tickRef.current;
-      const power = active ? Math.max(0.15, intensity) : 0;
-
-      if (power <= 0.02) {
+      if (!active) {
         embersRef.current = [];
         ctx.clearRect(0, 0, width, height);
         return;
       }
 
-      const spawnRate = Math.ceil(2 + power * 4);
+      const spawnRate = width > 400 ? 4 : 3;
       for (let i = 0; i < spawnRate; i++) {
         embersRef.current.push({
           x: width * (0.04 + Math.random() * 0.92),
           y: spawnY + Math.random() * 8,
-          vx: (Math.random() - 0.5) * (1.2 + power * 0.8),
-          vy: -(2.4 + Math.random() * 3.2) * (0.7 + power * 0.5),
+          vx: (Math.random() - 0.5) * 1.6,
+          vy: -(2.8 + Math.random() * 3.4),
           life: 0,
-          maxLife: 50 + Math.random() * 60,
-          size: (6 + Math.random() * 18) * (0.65 + power * 0.45),
-          hue: 16 + Math.random() * 28,
+          maxLife: 55 + Math.random() * 65,
+          size: 10 + Math.random() * 20,
+          hue: 16 + Math.random() * 26,
           wobble: Math.random() * Math.PI * 2,
         });
       }
@@ -161,24 +152,24 @@ export function WordmarkFireBurst({
       ctx.clearRect(0, 0, width, height);
 
       for (const lick of licksRef.current) {
-        drawFlameLick(ctx, lick, t, 0.22 * power);
+        drawFlameLick(ctx, lick, t, 0.38);
       }
 
       embersRef.current = embersRef.current.filter((e) => {
         e.life += 1;
-        e.wobble += 0.12 + power * 0.04;
+        e.wobble += 0.14;
         e.vx += Math.sin(e.wobble) * 0.11;
-        e.vy -= 0.04 + power * 0.02;
+        e.vy -= 0.048;
         e.x += e.vx;
         e.y += e.vy;
-        e.size *= 0.993;
+        e.size *= 0.992;
 
         const lifeT = e.life / e.maxLife;
         const alpha =
           lifeT < 0.1 ? lifeT / 0.1 : 1 - (lifeT - 0.1) / 0.9;
         if (alpha <= 0.02) return false;
 
-        drawEmber(ctx, e, alpha * 0.88 * power);
+        drawEmber(ctx, e, alpha * 0.92);
         return e.life < e.maxLife;
       });
 
@@ -193,7 +184,7 @@ export function WordmarkFireBurst({
     rafRef.current = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(rafRef.current);
-  }, [active, width, height, intensity]);
+  }, [active, width, height]);
 
   if (width < 1 || height < 1) return null;
 

@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BARRA_SHOT, CARTELES_SHOTS } from "@/lib/data/local-shots";
+import { RustyBrandStickerArt } from "@/components/motion/RustyBrandStickerArt";
+import { BARRA_SHOT, CARTELES_STICKERS } from "@/lib/data/local-shots";
 
 function CartelesHoverCard() {
   const [index, setIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const shot = CARTELES_SHOTS[index];
+  const shot = CARTELES_STICKERS[index];
 
   const stopCycle = useCallback(() => {
     if (intervalRef.current) {
@@ -19,10 +20,10 @@ function CartelesHoverCard() {
   }, []);
 
   const startCycle = useCallback(() => {
-    if (CARTELES_SHOTS.length <= 1) return;
+    if (CARTELES_STICKERS.length <= 1) return;
     stopCycle();
     intervalRef.current = setInterval(() => {
-      setIndex((i) => (i + 1) % CARTELES_SHOTS.length);
+      setIndex((i) => (i + 1) % CARTELES_STICKERS.length);
     }, 520);
   }, [stopCycle]);
 
@@ -38,19 +39,16 @@ function CartelesHoverCard() {
       <div className="relative flex aspect-[4/3] w-full items-center justify-center bg-rusty-smoke/95 p-5 md:p-7">
         <AnimatePresence mode="wait">
           <motion.div
-            key={shot.src}
+            key={shot.variant}
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="relative flex h-full w-full items-center justify-center"
+            className="relative flex h-full w-full items-center justify-center p-4"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={shot.src}
-              alt={shot.alt}
-              draggable={false}
-              className="hero-sticker-3d max-h-full max-w-full object-contain"
+            <RustyBrandStickerArt
+              variant={shot.variant}
+              className="hero-sticker-3d max-h-full max-w-[85%]"
             />
           </motion.div>
         </AnimatePresence>

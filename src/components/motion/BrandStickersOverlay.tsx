@@ -1,19 +1,14 @@
 "use client";
 
-import { BRAND_STICKERS } from "@/lib/data/brand-stickers";
-import { VECTOR_STICKERS } from "@/lib/data/vector-stickers";
-import { DraggableBrandSticker } from "./DraggableBrandSticker";
-import { HeroVectorSticker } from "./HeroVectorSticker";
+import { RUSTY_BRAND_STICKER_PLACEMENTS } from "@/lib/data/brand-sticker-placements";
+import { RustyBrandSticker } from "./RustyBrandSticker";
 
-/** Stickers PNG + SVG editoriales — sin fondo */
+/** Solo 3 calcomanías SVG — sin PNG ni fondos sucios */
 export function BrandStickersLayer() {
   return (
     <>
-      {BRAND_STICKERS.map((sticker) => (
-        <DraggableBrandSticker key={sticker.id} {...sticker} />
-      ))}
-      {VECTOR_STICKERS.map((sticker) => (
-        <HeroVectorSticker key={sticker.id} {...sticker} />
+      {RUSTY_BRAND_STICKER_PLACEMENTS.map((sticker) => (
+        <RustyBrandSticker key={sticker.id} {...sticker} />
       ))}
     </>
   );
