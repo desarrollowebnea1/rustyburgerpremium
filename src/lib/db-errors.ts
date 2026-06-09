@@ -25,6 +25,13 @@ export function handleRepositoryError(error: unknown) {
   }
 
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error.code === "P2021") {
+      return fail(
+        "La base de datos no tiene tablas. Ejecutá: npx prisma migrate deploy && npm run db:seed",
+        503,
+        { code: error.code }
+      );
+    }
     return fail("Error al consultar la base de datos.", 500, { code: error.code });
   }
 
