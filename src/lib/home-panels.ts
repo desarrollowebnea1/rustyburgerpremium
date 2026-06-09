@@ -17,7 +17,6 @@ export const HOME_NAV_LINKS = [
   { panelId: "products" as HomePanelId, label: "MENU", href: "/menu" },
   { panelId: "promo" as HomePanelId, label: "PROMOS", href: "/promos" },
   { panelId: "local" as HomePanelId, label: "EXPERIENCIA", href: "/nosotros" },
-  { panelId: "local" as HomePanelId, label: "SUCURSAL", href: "/sucursal" },
   { panelId: "close" as HomePanelId, label: "FAQS", href: "/faqs" },
 ] as const;
 
