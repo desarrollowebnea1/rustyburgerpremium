@@ -64,7 +64,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
               </motion.div>
             ))}
         <motion.div
-          className="mt-8"
+          className="mt-8 space-y-3"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -75,6 +75,13 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
           >
             PEDÍ AHORA
           </GoToMenuPanelButton>
+          <Link
+            href="/seguimiento"
+            onClick={onClose}
+            className="block w-full border border-rusty-gray/50 py-4 text-center font-display text-sm uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange"
+          >
+            Seguir pedido
+          </Link>
         </motion.div>
       </nav>
       <p className="relative px-6 pb-10 font-display text-xs uppercase tracking-[0.3em] text-rusty-cream/30">

@@ -6,6 +6,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 import { formatCurrency } from "@/lib/cart-utils";
+import { saveLastOrderCode } from "@/lib/order-storage";
 
 type DeliveryType = "DELIVERY" | "TAKEAWAY";
 type PaymentMethod = "CASH" | "TRANSFER" | "CARD" | "IFOOD" | "OTHER";
@@ -92,6 +93,7 @@ export function CheckoutClient() {
       }
 
       clearCart();
+      saveLastOrderCode(json.data.code);
       router.push(`/pedido/${encodeURIComponent(json.data.code)}`);
       router.refresh();
     } catch {

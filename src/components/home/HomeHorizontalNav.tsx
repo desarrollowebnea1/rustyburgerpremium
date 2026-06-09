@@ -48,6 +48,14 @@ export function HomeHorizontalNav() {
                   </Link>
                 </li>
               ))}
+          <li>
+            <Link
+              href="/seguimiento"
+              className={`${linkClass} text-[#0A0A0A]/75`}
+            >
+              SEGUIR PEDIDO
+            </Link>
+          </li>
         </ul>
 
         <ul className="flex shrink-0 items-center gap-4 md:gap-5">

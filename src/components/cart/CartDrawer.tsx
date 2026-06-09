@@ -160,6 +160,18 @@ export function CartDrawer() {
               )}
             </div>
 
+            {isHydrated && (
+              <div className="border-t border-rusty-gray/40 px-5 py-3">
+                <Link
+                  href="/seguimiento"
+                  onClick={closeCart}
+                  className="block text-center font-display text-[10px] uppercase tracking-widest text-rusty-cream/50 hover:text-rusty-orange"
+                >
+                  Seguir pedido
+                </Link>
+              </div>
+            )}
+
             {isHydrated && items.length > 0 && (
               <footer className="border-t border-rusty-gray/40 px-5 py-5">
                 <div className="flex items-center justify-between">

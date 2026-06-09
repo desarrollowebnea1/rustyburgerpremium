@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 import { formatCurrency } from "@/lib/cart-utils";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { saveLastOrderCode } from "@/lib/order-storage";
 
 type TimelineStep = {
   key: string;
@@ -51,6 +53,7 @@ export function OrderTrackingClient({ code }: { code: string }) {
   const [order, setOrder] = useState<OrderData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -62,6 +65,7 @@ export function OrderTrackingClient({ code }: { code: string }) {
           return;
         }
         setOrder(json.data);
+        saveLastOrderCode(json.data.code);
       } catch {
         setError("No se pudo cargar el pedido.");
       } finally {
@@ -91,21 +95,49 @@ export function OrderTrackingClient({ code }: { code: string }) {
       <section className="mx-auto max-w-2xl px-4 py-24 md:px-8 md:py-32">
         <h1 className="font-display text-3xl uppercase text-rusty-cream">Pedido no encontrado</h1>
         <p className="mt-4 text-rusty-cream/60">{error ?? "Código inválido."}</p>
-        <GoToMenuPanelButton className="mt-8 inline-block bg-rusty-orange px-6 py-3 font-display text-xs uppercase text-rusty-carbon">
-          Volver al menú
-        </GoToMenuPanelButton>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/seguimiento"
+            className="inline-block bg-rusty-orange px-6 py-3 text-center font-display text-xs uppercase text-rusty-carbon"
+          >
+            Consultar otro pedido
+          </Link>
+          <GoToMenuPanelButton className="inline-block border border-rusty-gray/50 px-6 py-3 text-center font-display text-xs uppercase text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange">
+            Volver al menú
+          </GoToMenuPanelButton>
+        </div>
       </section>
     );
   }
 
   const isCancelled = order.status === "CANCELLED";
+  const isDelivered = order.status === "DELIVERED";
+
+  async function handleCopyCode(orderCode: string) {
+    try {
+      await navigator.clipboard.writeText(orderCode);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-24 md:px-8 md:py-32">
       <p className="font-display text-xs uppercase tracking-[0.35em] text-rusty-orange">
         Seguimiento
       </p>
-      <h1 className="mt-2 font-display text-4xl uppercase text-rusty-cream">{order.code}</h1>
+      <div className="mt-2 flex flex-wrap items-center gap-3">
+        <h1 className="font-display text-4xl uppercase text-rusty-cream">{order.code}</h1>
+        <button
+          type="button"
+          onClick={() => handleCopyCode(order.code)}
+          className="border border-rusty-gray/50 px-3 py-1.5 font-display text-[10px] uppercase tracking-wider text-rusty-cream/70 hover:border-rusty-orange hover:text-rusty-orange"
+        >
+          {copied ? "Copiado ✓" : "Copiar código"}
+        </button>
+      </div>
       <p className="mt-2 text-sm text-rusty-cream/60">
         Hola {order.customerName}, este es el estado de tu pedido.
       </p>
@@ -126,6 +158,11 @@ export function OrderTrackingClient({ code }: { code: string }) {
         {isCancelled && (
           <p className="mt-2 text-sm text-rusty-cream/70">
             Este pedido fue cancelado. Consultanos por WhatsApp si necesitás ayuda.
+          </p>
+        )}
+        {isDelivered && (
+          <p className="mt-2 text-sm text-rusty-cream/70">
+            Tu pedido fue completado. Podés consultar este código cuando quieras.
           </p>
         )}
       </div>
@@ -197,7 +234,7 @@ export function OrderTrackingClient({ code }: { code: string }) {
         <span className="font-display text-2xl text-rusty-orange">{formatCurrency(order.total)}</span>
       </div>
 
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         {whatsappUrl && (
           <a
             href={whatsappUrl}
@@ -208,6 +245,12 @@ export function OrderTrackingClient({ code }: { code: string }) {
             Consultar por WhatsApp
           </a>
         )}
+        <Link
+          href="/seguimiento"
+          className="flex-1 border border-rusty-gray/50 py-3 text-center font-display text-xs uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange"
+        >
+          Consultar otro pedido
+        </Link>
         <GoToMenuPanelButton className="flex-1 border border-rusty-gray/50 py-3 text-center font-display text-xs uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange">
           Volver al menú
         </GoToMenuPanelButton>
