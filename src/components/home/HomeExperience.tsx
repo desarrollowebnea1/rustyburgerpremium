@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { MotionPreloader } from "@/components/motion/MotionPreloader";
-import { HorizontalHome } from "@/components/home/HorizontalHome";
+import { HomeVertical } from "@/components/home/HomeVertical";
 import { HomePanelFromUrl } from "@/components/home/HomePanelFromUrl";
 import { HomeMotionProvider } from "@/context/HomeMotionContext";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -16,8 +16,8 @@ export function HomeExperience() {
         <Suspense fallback={null}>
           <HomePanelFromUrl />
         </Suspense>
-        <PageShell horizontalHome>
-          <HorizontalHome />
+        <PageShell verticalHome>
+          <HomeVertical />
         </PageShell>
       </SmoothScrollProvider>
     </HomeMotionProvider>

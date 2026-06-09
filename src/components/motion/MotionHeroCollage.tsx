@@ -69,7 +69,7 @@ export function MotionHeroCollage() {
     <section
       ref={heroRef}
       id="rusty-collage"
-      className="hero-panel-premium relative flex h-full min-h-0 w-full items-start justify-start overflow-hidden"
+      className="hero-panel-premium relative flex min-h-[100svh] w-full items-start justify-start overflow-hidden"
       style={{ backgroundColor: HERO_CANVAS.bg }}
     >
       <div style={{ width: scaledW, height: scaledH, flexShrink: 0 }}>

@@ -5,6 +5,7 @@ import {
   HOME_PANEL_IDS,
   type HomePanelId,
   indexToProgress,
+  panelIdToAnchor,
 } from "@/lib/home-panels";
 
 type HomeMotionContextValue = {
@@ -62,10 +63,12 @@ export function HomeMotionProvider({ children }: { children: React.ReactNode }) 
       return;
     }
 
-    // Fallback sin GSAP (reduced motion / hook aún no montado)
-    const track = document.querySelector<HTMLElement>(".horizontal-track");
-    if (track) {
-      track.scrollTo({ left: idx * track.clientWidth, behavior: "smooth" });
+    // Fallback si el hook vertical aún no registró el navigator
+    const anchor = panelIdToAnchor(panelId);
+    const el = document.getElementById(anchor);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
     }
   }, [setScrollProgress]);
 

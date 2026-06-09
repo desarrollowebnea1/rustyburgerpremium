@@ -80,6 +80,9 @@ export function SiteNavbar() {
                     {link.label}
                   </NavLink>
                 ))}
+            <NavLink href="/seguimiento" className="hidden xl:inline">
+              SEGUIR PEDIDO
+            </NavLink>
             <GoToMenuPanelButton className="inline-flex items-center justify-center border-2 border-rusty-orange bg-rusty-orange px-5 py-2 font-display text-xs uppercase tracking-wider text-rusty-carbon transition hover:bg-rusty-orangeBright">
               PEDÍ AHORA
             </GoToMenuPanelButton>
