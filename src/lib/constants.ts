@@ -1,3 +1,5 @@
+import { HOME_NAV_LINKS } from "@/lib/home-panels";
+
 export const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5547984062460";
 
@@ -33,12 +35,10 @@ export const ASSETS = {
   promos: (name: string) => `/rusty/promos/${name}.jpg`,
 } as const;
 
-export const NAV_LINKS = [
-  { href: "/menu", label: "MENU" },
-  { href: "/promos", label: "PROMOS" },
-  { href: "/nosotros", label: "EXPERIENCIA" },
-  { href: "/faqs", label: "FAQS" },
-] as const;
+export const NAV_LINKS = HOME_NAV_LINKS.map(({ label, href }) => ({
+  href,
+  label,
+})) as ReadonlyArray<{ href: string; label: string }>;
 
 export const MARQUEE_TEXT =
   "RUSTY BURGER · FEAST MODE ON · SMASH BURGER · PEDÍ AHORA · DELIVERY · ZERO REGRETS · BORA PRO RUSTY · ";

@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { WHATSAPP_URL } from "@/lib/constants";
 import { useHomeMotion, type HomePanelId } from "@/context/HomeMotionContext";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 
@@ -18,7 +17,7 @@ function navThemeForPanel(panelId: HomePanelId): NavTheme {
 /** Header editorial — logo + CTA con contraste según panel activo */
 export function HomeFloatingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { preloaderDone, activePanelId } = useHomeMotion();
+  const { preloaderDone, activePanelId, scrollToPanel } = useHomeMotion();
   const theme = useMemo(() => navThemeForPanel(activePanelId), [activePanelId]);
 
   if (activePanelId === "products") return null;
@@ -65,17 +64,16 @@ export function HomeFloatingNav() {
         </Link>
 
         <div className="pointer-events-auto flex items-center gap-4">
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => scrollToPanel("products")}
             className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-condensed text-[9px] font-semibold uppercase tracking-[0.14em] backdrop-blur-sm transition duration-500 md:px-5 md:py-2.5 md:text-[10px] ${ctaClass}`}
           >
             <span className="text-rusty-orange text-[8px]" aria-hidden>
               ✦
             </span>
             Pedí ahora
-          </a>
+          </button>
           <button
             type="button"
             className="flex h-10 w-10 flex-col items-center justify-center gap-1 rounded-full bg-rusty-carbon/55 ring-1 ring-rusty-cream/15 backdrop-blur-sm lg:hidden"

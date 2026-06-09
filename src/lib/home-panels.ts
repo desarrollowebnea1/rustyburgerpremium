@@ -12,12 +12,17 @@ export const HOME_PROGRESS_PANELS = [
   { label: "FAQs" },
 ] as const;
 
-/** Navegación interna de la home horizontal (panel + fallback href SEO) */
+/** URL de la home con panel horizontal (fallback fuera de `/`) */
+export function homePanelHref(panelId: HomePanelId): string {
+  return `/?panel=${panelId}`;
+}
+
+/** Navegación interna de la home horizontal */
 export const HOME_NAV_LINKS = [
-  { panelId: "products" as HomePanelId, label: "MENU", href: "/menu" },
-  { panelId: "promo" as HomePanelId, label: "PROMOS", href: "/promos" },
-  { panelId: "local" as HomePanelId, label: "EXPERIENCIA", href: "/nosotros" },
-  { panelId: "close" as HomePanelId, label: "FAQS", href: "/faqs" },
+  { panelId: "products" as HomePanelId, label: "MENU", href: homePanelHref("products") },
+  { panelId: "promo" as HomePanelId, label: "PROMOS", href: homePanelHref("promo") },
+  { panelId: "local" as HomePanelId, label: "EXPERIENCIA", href: homePanelHref("local") },
+  { panelId: "close" as HomePanelId, label: "FAQS", href: homePanelHref("close") },
 ] as const;
 
 export function panelIdToIndex(panelId: HomePanelId): number {

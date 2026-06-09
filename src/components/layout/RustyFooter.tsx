@@ -11,7 +11,7 @@ import {
   SITE,
   WHATSAPP_URL,
 } from "@/lib/constants";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 
 export function RustyFooter() {
   return (
@@ -29,7 +29,9 @@ export function RustyFooter() {
             {SITE.tagline} — dark kitchen, smash brutal, calle y naranja.
           </p>
           <div className="mt-8">
-            <MagneticButton href={WHATSAPP_URL}>PEDÍ AHORA</MagneticButton>
+            <GoToMenuPanelButton className="inline-flex items-center justify-center border-2 border-rusty-orange bg-transparent px-6 py-3 font-display text-sm uppercase tracking-wider text-rusty-orange transition hover:bg-rusty-orange hover:text-rusty-carbon">
+              PEDÍ AHORA
+            </GoToMenuPanelButton>
           </div>
         </div>
 

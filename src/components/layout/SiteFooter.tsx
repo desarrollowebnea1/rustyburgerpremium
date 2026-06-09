@@ -8,6 +8,7 @@ import {
   SITE,
   WHATSAPP_URL,
 } from "@/lib/constants";
+import { homePanelHref } from "@/lib/home-panels";
 
 export function SiteFooter() {
   return (
@@ -79,14 +80,12 @@ export function SiteFooter() {
           <p className="text-sm text-rusty-cream/70">
             WhatsApp · iFood · Mostrador
           </p>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={homePanelHref("products")}
             className="mt-4 inline-block border-2 border-rusty-orange px-6 py-3 font-display text-sm uppercase text-rusty-orange transition hover:bg-rusty-orange hover:text-rusty-carbon"
           >
             PEDÍ AHORA
-          </a>
+          </Link>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 import { formatCurrency } from "@/lib/cart-utils";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 
@@ -91,12 +91,9 @@ export function OrderTrackingClient({ code }: { code: string }) {
       <section className="mx-auto max-w-2xl px-4 py-24 md:px-8 md:py-32">
         <h1 className="font-display text-3xl uppercase text-rusty-cream">Pedido no encontrado</h1>
         <p className="mt-4 text-rusty-cream/60">{error ?? "Código inválido."}</p>
-        <Link
-          href="/menu"
-          className="mt-8 inline-block bg-rusty-orange px-6 py-3 font-display text-xs uppercase text-rusty-carbon"
-        >
+        <GoToMenuPanelButton className="mt-8 inline-block bg-rusty-orange px-6 py-3 font-display text-xs uppercase text-rusty-carbon">
           Volver al menú
-        </Link>
+        </GoToMenuPanelButton>
       </section>
     );
   }
@@ -211,12 +208,9 @@ export function OrderTrackingClient({ code }: { code: string }) {
             Consultar por WhatsApp
           </a>
         )}
-        <Link
-          href="/menu"
-          className="flex-1 border border-rusty-gray/50 py-3 text-center font-display text-xs uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange"
-        >
+        <GoToMenuPanelButton className="flex-1 border border-rusty-gray/50 py-3 text-center font-display text-xs uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange">
           Volver al menú
-        </Link>
+        </GoToMenuPanelButton>
       </div>
     </section>
   );

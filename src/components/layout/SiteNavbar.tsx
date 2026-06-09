@@ -3,16 +3,20 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ASSETS, NAV_LINKS, WHATSAPP_URL } from "@/lib/constants";
+import { ASSETS, NAV_LINKS } from "@/lib/constants";
 import { useHomeMotion } from "@/context/HomeMotionContext";
+import { HOME_NAV_LINKS } from "@/lib/home-panels";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 import { NavLink } from "@/components/ui/NavLink";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import { MobileMenu } from "./MobileMenu";
 
 export function SiteNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { preloaderDone } = useHomeMotion();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const { preloaderDone, scrollToPanel } = useHomeMotion();
 
   return (
     <>
@@ -30,11 +34,26 @@ export function SiteNavbar() {
             className="hidden flex-1 items-center gap-6 lg:flex"
             aria-label="Principal izquierda"
           >
-            {NAV_LINKS.slice(0, 3).map((link) => (
-              <NavLink key={link.href} href={link.href}>
-                {link.label}
-              </NavLink>
-            ))}
+            {isHome
+              ? HOME_NAV_LINKS.slice(0, 3).map((link) => (
+                  <button
+                    key={link.panelId}
+                    type="button"
+                    onClick={() => scrollToPanel(link.panelId)}
+                    className="group relative font-display text-sm uppercase tracking-wider text-rusty-cream/90"
+                  >
+                    {link.label}
+                    <span
+                      className="absolute -bottom-1 left-0 h-0.5 w-full origin-right scale-x-0 bg-rusty-orange transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:origin-left group-hover:scale-x-100"
+                      aria-hidden
+                    />
+                  </button>
+                ))
+              : NAV_LINKS.slice(0, 3).map((link) => (
+                  <NavLink key={link.href} href={link.href}>
+                    {link.label}
+                  </NavLink>
+                ))}
           </nav>
 
           <Link
@@ -52,14 +71,29 @@ export function SiteNavbar() {
           </Link>
 
           <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
-            {NAV_LINKS.slice(3).map((link) => (
-              <NavLink key={link.href} href={link.href}>
-                {link.label}
-              </NavLink>
-            ))}
-            <MagneticButton href={WHATSAPP_URL} className="!text-xs">
+            {isHome
+              ? HOME_NAV_LINKS.slice(3).map((link) => (
+                  <button
+                    key={link.panelId}
+                    type="button"
+                    onClick={() => scrollToPanel(link.panelId)}
+                    className="group relative font-display text-sm uppercase tracking-wider text-rusty-cream/90"
+                  >
+                    {link.label}
+                    <span
+                      className="absolute -bottom-1 left-0 h-0.5 w-full origin-right scale-x-0 bg-rusty-orange transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:origin-left group-hover:scale-x-100"
+                      aria-hidden
+                    />
+                  </button>
+                ))
+              : NAV_LINKS.slice(3).map((link) => (
+                  <NavLink key={link.href} href={link.href}>
+                    {link.label}
+                  </NavLink>
+                ))}
+            <GoToMenuPanelButton className="inline-flex items-center justify-center border-2 border-rusty-orange bg-rusty-orange px-5 py-2 font-display text-xs uppercase tracking-wider text-rusty-carbon transition hover:bg-rusty-orangeBright">
               PEDÍ AHORA
-            </MagneticButton>
+            </GoToMenuPanelButton>
           </div>
 
           <button

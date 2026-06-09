@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { NAV_LINKS } from "@/lib/constants";
 import { useHomeMotion } from "@/context/HomeMotionContext";
 import { HOME_NAV_LINKS } from "@/lib/home-panels";
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 
 type MobileMenuProps = {
   onClose: () => void;
@@ -69,9 +69,12 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <WhatsAppButton size="lg" className="w-full">
+          <GoToMenuPanelButton
+            onClick={onClose}
+            className="w-full border-2 border-rusty-orange bg-rusty-orange px-6 py-4 text-center font-display text-sm uppercase tracking-wider text-rusty-carbon transition hover:bg-rusty-orangeBright"
+          >
             PEDÍ AHORA
-          </WhatsAppButton>
+          </GoToMenuPanelButton>
         </motion.div>
       </nav>
       <p className="relative px-6 pb-10 font-display text-xs uppercase tracking-[0.3em] text-rusty-cream/30">

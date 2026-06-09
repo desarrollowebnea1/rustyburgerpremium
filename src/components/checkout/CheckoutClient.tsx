@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
 import { formatCurrency } from "@/lib/cart-utils";
 
 type DeliveryType = "DELIVERY" | "TAKEAWAY";
@@ -114,12 +114,9 @@ export function CheckoutClient() {
       <section className="mx-auto max-w-2xl px-4 py-24 md:px-8 md:py-32">
         <h1 className="font-display text-4xl uppercase text-rusty-cream">Finalizar pedido</h1>
         <p className="mt-6 text-rusty-cream/60">Tu carrito está vacío.</p>
-        <Link
-          href="/menu"
-          className="mt-6 inline-block bg-rusty-orange px-8 py-3 font-display text-sm uppercase text-rusty-carbon"
-        >
+        <GoToMenuPanelButton className="mt-6 inline-block bg-rusty-orange px-8 py-3 font-display text-sm uppercase text-rusty-carbon">
           Ir al menú
-        </Link>
+        </GoToMenuPanelButton>
       </section>
     );
   }
@@ -280,12 +277,9 @@ export function CheckoutClient() {
           >
             {loading ? "Confirmando…" : "Confirmar pedido"}
           </button>
-          <Link
-            href="/menu"
-            className="flex-1 border border-rusty-gray/50 py-4 text-center font-display text-sm uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange"
-          >
+          <GoToMenuPanelButton className="flex-1 border border-rusty-gray/50 py-4 text-center font-display text-sm uppercase tracking-wider text-rusty-cream hover:border-rusty-orange hover:text-rusty-orange">
             Volver al menú
-          </Link>
+          </GoToMenuPanelButton>
         </div>
       </form>
     </section>
