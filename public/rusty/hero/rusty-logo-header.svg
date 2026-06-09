@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="64" viewBox="0 0 200 64" fill="none">
+  <defs>
+    <linearGradient id="lo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFB347"/>
+      <stop offset="100%" stop-color="#F18700"/>
+    </linearGradient>
+  </defs>
+  <text x="0" y="38" fill="url(#lo)" stroke="#050505" stroke-width="2.5" paint-order="stroke fill" font-family="Arial Black, sans-serif" font-size="34" font-weight="900" letter-spacing="-1.5">RUSTY</text>
+  <text x="1" y="58" fill="#050505" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" letter-spacing="5">BURGER</text>
+</svg>

@@ -1,0 +1,35 @@
+{
+  "generatedAt": "2026-06-05T23:15:44.417Z",
+  "captures": [
+    {
+      "label": "VICIO",
+      "viewport": "1920×1080",
+      "burger": null,
+      "title": null,
+      "images": null,
+      "collection": {
+        "top": "48.9vh",
+        "bottom": "75.6vh",
+        "left": "0.0vw",
+        "right": "99.9vw",
+        "width": "99.9vw",
+        "height": "26.7vh"
+      }
+    },
+    {
+      "label": "RUSTY",
+      "viewport": "1920×1080",
+      "burger": null,
+      "title": null,
+      "images": null,
+      "collection": {
+        "top": "48.9vh",
+        "bottom": "75.6vh",
+        "left": "0.7vw",
+        "right": "99.9vw",
+        "width": "99.2vw",
+        "height": "26.7vh"
+      }
+    }
+  ]
+}

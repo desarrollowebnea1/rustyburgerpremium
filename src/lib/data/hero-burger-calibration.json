@@ -1,0 +1,38 @@
+{
+  "rusty": {
+    "label": "RUSTY",
+    "bbox": {
+      "left": 0,
+      "top": 0,
+      "width": 1056,
+      "height": 1079
+    },
+    "area": 563078
+  },
+  "vicio": {
+    "label": "VICIO",
+    "bbox": {
+      "left": 0,
+      "top": 0,
+      "width": 1056,
+      "height": 1079
+    },
+    "area": 586253
+  },
+  "delta": {
+    "left": 0,
+    "top": 0,
+    "width": 0,
+    "height": 0
+  },
+  "current": {
+    "left": 108,
+    "top": 112,
+    "width": 768
+  },
+  "recommended": {
+    "left": 108,
+    "top": 112,
+    "width": 768
+  }
+}

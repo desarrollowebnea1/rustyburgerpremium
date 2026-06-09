@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Burger calibrate — Rusty vs Vicio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: system-ui, sans-serif; background: #111; color: #eee; padding: 16px; }
+    h1 { font-size: 14px; margin-bottom: 12px; }
+    .row { display: flex; gap: 12px; align-items: flex-start; }
+    .panel { flex: 1; background: #1a1a1a; border-radius: 8px; padding: 8px; }
+    .panel h2 { font-size: 11px; margin-bottom: 6px; color: #aaa; text-transform: uppercase; }
+    .frame { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid #333; }
+    .frame img.bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .overlay { position: absolute; pointer-events: none; border: 2px dashed #f18700; background: rgba(241,135,0,.08); }
+    .controls { margin-top: 16px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; max-width: 720px; }
+    label { font-size: 11px; display: flex; flex-direction: column; gap: 4px; }
+    input[type=range] { width: 100%; }
+    code { display: block; margin-top: 12px; font-size: 12px; background: #222; padding: 10px; border-radius: 6px; }
+    .note { font-size: 11px; color: #888; margin-top: 8px; max-width: 720px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <h1>Calibración burger — arrastrá los sliders hasta que el recuadro naranja en Rusty coincida con la burger de Vicio</h1>
+  <div class="row">
+    <div class="panel">
+      <h2>Vicio (referencia)</h2>
+      <div class="frame">
+        <img class="bg" src="../rusty/dev/vicio-ref.png" alt="Vicio" onerror="this.style.opacity=.3" />
+        <div class="overlay" id="vicio-box" style="left:2.2%;top:7.8%;width:39.4%;height:56.8%"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Rusty (ajustá acá)</h2>
+      <div class="frame">
+        <img class="bg" src="../rusty/dev/rusty-ref.png" alt="Rusty" onerror="this.style.opacity=.3" />
+        <div class="overlay" id="rusty-box"></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <label>left (px @1920) <input id="left" type="range" min="0" max="200" value="42" /><span id="leftv">42</span></label>
+    <label>top (px @1920) <input id="top" type="range" min="0" max="200" value="84" /><span id="topv">84</span></label>
+    <label>width (px @1920) <input id="width" type="range" min="500" max="900" value="756" /><span id="widthv">756</span></label>
+  </div>
+  <code id="out">burger: { left: 42, top: 84, width: 756 }</code>
+  <p class="note">Copiá los valores a <strong>src/lib/data/hero-vicio-layout.ts</strong>. Subí tus capturas como <code>public/rusty/dev/vicio-ref.png</code> y <code>rusty-ref.png</code> para ver las imágenes.</p>
+  <script>
+    const box = document.getElementById('rusty-box');
+    const vbox = document.getElementById('vicio-box');
+    const W = 1920, H = 1080;
+    function pct(px, total) { return (px / total * 100).toFixed(2) + '%'; }
+    function update() {
+      const l = +document.getElementById('left').value;
+      const t = +document.getElementById('top').value;
+      const w = +document.getElementById('width').value;
+      const h = Math.round(w * (533/668));
+      document.getElementById('leftv').textContent = l;
+      document.getElementById('topv').textContent = t;
+      document.getElementById('widthv').textContent = w;
+      box.style.left = pct(l, W);
+      box.style.top = pct(t, H);
+      box.style.width = pct(w, W);
+      box.style.height = pct(h, H);
+      document.getElementById('out').textContent = `burger: { left: ${l}, top: ${t}, width: ${w} }  // right=${l+w}, height≈${h}`;
+    }
+    ['left','top','width'].forEach(id => document.getElementById(id).addEventListener('input', update));
+    update();
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Title calibrate — RUSTY BURGER vs VICIO CITIES</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: system-ui, sans-serif; background: #111; color: #eee; padding: 16px; }
+    h1 { font-size: 14px; margin-bottom: 12px; line-height: 1.4; }
+    .row { display: flex; gap: 12px; }
+    .panel { flex: 1; background: #1a1a1a; border-radius: 8px; padding: 8px; }
+    .panel h2 { font-size: 11px; margin-bottom: 6px; color: #aaa; text-transform: uppercase; }
+    .frame { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid #333; }
+    .frame img.bg { width: 100%; height: 100%; object-fit: cover; }
+    .overlay { position: absolute; pointer-events: none; border: 2px dashed #f18700; background: rgba(241,135,0,.1); }
+    .overlay span { position: absolute; left: 2px; top: 2px; font-size: 9px; color: #f18700; }
+    .controls { margin-top: 16px; display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; max-width: 900px; }
+    label { font-size: 11px; display: flex; flex-direction: column; gap: 4px; }
+    code { display: block; margin-top: 12px; font-size: 11px; background: #222; padding: 10px; border-radius: 6px; white-space: pre-wrap; }
+    .note { font-size: 11px; color: #888; margin-top: 8px; max-width: 900px; line-height: 1.5; }
+    button { margin-top: 8px; padding: 6px 12px; background: #f18700; border: 0; border-radius: 4px; color: #111; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>PASO 2 — Calibrar "RUSTY BURGER" vs "VICIO CITIES". Regla: el borde izq del título = borde der burger (798px). Ajustá 5px a la vez.</h1>
+  <div class="row">
+    <div class="panel">
+      <h2>Vicio — VICIO CITIES (referencia)</h2>
+      <div class="frame">
+        <img class="bg" src="../rusty/dev/vicio-ref.png" alt="Vicio" />
+        <div class="overlay" id="vicio-box" style="left:41.6%;top:7.8%;width:52%;height:14%"><span>VICIO CITIES</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Rusty — ajustá recuadro naranja</h2>
+      <div class="frame">
+        <img class="bg" src="../rusty/dev/rusty-ref.png" alt="Rusty" />
+        <div class="overlay" id="rusty-box"><span>RUSTY BURGER</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <label>left (px) <input id="left" type="range" min="700" max="900" step="5" value="798" /><span id="leftv">798</span></label>
+    <label>top (px) <input id="top" type="range" min="60" max="120" step="5" value="84" /><span id="topv">84</span></label>
+    <label>fontSize (px) <input id="size" type="range" min="140" max="190" step="2" value="162" /><span id="sizev">162</span></label>
+    <label>tracking (em×100) <input id="track" type="range" min="-8" max="-3" step="1" value="-5" /><span id="trackv">-0.05</span></label>
+  </div>
+  <button type="button" id="nudge-left">← 5px</button>
+  <button type="button" id="nudge-right">5px →</button>
+  <button type="button" id="nudge-up">↑ 5px</button>
+  <button type="button" id="nudge-down">↓ 5px</button>
+  <code id="out"></code>
+  <p class="note">Copiá el bloque <strong>title</strong> a <code>src/lib/data/hero-vicio-layout.ts</code>. Burger fija: left 42 + width 756 = 798.</p>
+  <script>
+    const W = 1920, H = 1080;
+    const box = document.getElementById('rusty-box');
+    const pct = (px, total) => (px / total * 100).toFixed(2) + '%';
+    function render() {
+      const l = +document.getElementById('left').value;
+      const t = +document.getElementById('top').value;
+      const s = +document.getElementById('size').value;
+      const tr = +document.getElementById('track').value / 100;
+      const h = Math.round(s * 0.84);
+      document.getElementById('leftv').textContent = l;
+      document.getElementById('topv').textContent = t;
+      document.getElementById('sizev').textContent = s;
+      document.getElementById('trackv').textContent = tr.toFixed(2);
+      box.style.left = pct(l, W);
+      box.style.top = pct(t, H);
+      box.style.width = pct(Math.min(1100, W - l - 20), W);
+      box.style.height = pct(h, H);
+      document.getElementById('out').textContent = `title: {\n  left: ${l},\n  top: ${t},\n  fontSize: ${s},\n  lineHeight: 0.84,\n  letterSpacing: "${tr.toFixed(3)}em",\n  zIndex: 10,\n}`;
+    }
+    ['left','top','size','track'].forEach(id => document.getElementById(id).addEventListener('input', render));
+    document.getElementById('nudge-left').onclick = () => { document.getElementById('left').value = +document.getElementById('left').value - 5; render(); };
+    document.getElementById('nudge-right').onclick = () => { document.getElementById('left').value = +document.getElementById('left').value + 5; render(); };
+    document.getElementById('nudge-up').onclick = () => { document.getElementById('top').value = +document.getElementById('top').value - 5; render(); };
+    document.getElementById('nudge-down').onclick = () => { document.getElementById('top').value = +document.getElementById('top').value + 5; render(); };
+    render();
+  </script>
+</body>
+</html>
