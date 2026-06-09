@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { HERO_COLLAGE_PANELS } from "@/lib/data/hero-collage-panels";
 import { HERO_COLLAGE_ORDER, HERO_COLLAGE_ROTATE } from "@/lib/data/hero-collage-vicio";
 import { HERO_MENU_ROWS } from "@/lib/data/hero-menu-line";
@@ -19,9 +20,36 @@ const BURGER = {
 } as const;
 
 const MOBILE_STICKERS = [
-  { id: "feast-mode", variant: "feast-mode" as const, className: "right-[6%] top-[10%] w-[72px] rotate-[-6deg]" },
-  { id: "r-fire", variant: "r-fire" as const, className: "right-[18%] top-[38%] w-[64px] rotate-[10deg]" },
-  { id: "zero-regrets", variant: "zero-regrets" as const, className: "left-[4%] top-[48%] w-[76px] rotate-[-8deg]" },
+  {
+    id: "feast-mode",
+    variant: "feast-mode" as const,
+    className: "right-[6%] top-[10%] w-[72px]",
+    baseRotate: -6,
+    floatY: [0, -7, 0] as number[],
+    floatRotate: [-6, -4, -6] as number[],
+    duration: 6.2,
+    delay: 0,
+  },
+  {
+    id: "r-fire",
+    variant: "r-fire" as const,
+    className: "right-[18%] top-[38%] w-[64px]",
+    baseRotate: 10,
+    floatY: [0, -9, 0] as number[],
+    floatRotate: [10, 13, 10] as number[],
+    duration: 7.4,
+    delay: 0.5,
+  },
+  {
+    id: "zero-regrets",
+    variant: "zero-regrets" as const,
+    className: "left-[4%] top-[48%] w-[76px]",
+    baseRotate: -8,
+    floatY: [0, -6, 0] as number[],
+    floatRotate: [-8, -5, -8] as number[],
+    duration: 5.8,
+    delay: 1.1,
+  },
 ];
 
 type HeroMobileEditorialProps = {
@@ -29,6 +57,8 @@ type HeroMobileEditorialProps = {
 };
 
 export function HeroMobileEditorial({ play = true }: HeroMobileEditorialProps) {
+  const reduced = useReducedMotion();
+
   return (
     <section
       id="rusty-collage-mobile"
@@ -38,13 +68,32 @@ export function HeroMobileEditorial({ play = true }: HeroMobileEditorialProps) {
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {MOBILE_STICKERS.map((sticker) => (
-          <div
+          <motion.div
             key={sticker.id}
             data-hero-sticker
             className={`absolute opacity-90 ${sticker.className}`}
+            style={{ rotate: sticker.baseRotate }}
+            animate={
+              reduced
+                ? undefined
+                : {
+                    y: sticker.floatY,
+                    rotate: sticker.floatRotate,
+                  }
+            }
+            transition={
+              reduced
+                ? undefined
+                : {
+                    duration: sticker.duration,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: sticker.delay,
+                  }
+            }
           >
             <RustyBrandStickerArt variant={sticker.variant} className="hero-sticker-3d w-full" />
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -99,6 +148,7 @@ export function HeroMobileEditorial({ play = true }: HeroMobileEditorialProps) {
           <RustyWordmark
             play={play}
             interactive
+            mobileFire
             scaleY={1.32}
             targetWidth={320}
             style={{
