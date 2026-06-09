@@ -1,19 +1,55 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, type Product } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { generateOrderCode } from "@/lib/orders/order-code";
 import { serializePublicOrder } from "@/lib/orders/order-serialize";
 import type { ValidatedOrderInput } from "@/lib/orders/order-validation";
 import { parseCartPrice } from "@/lib/cart-utils";
 
+const ACTIVE_PRODUCT = { active: true, available: true } as const;
+
 async function getDeliveryFee(deliveryType: ValidatedOrderInput["deliveryType"]): Promise<number> {
   if (deliveryType !== "DELIVERY") return 0;
 
-  const setting = await prisma.siteSetting.findUnique({
-    where: { key: "deliveryFee" },
-  });
+  try {
+    const setting = await prisma.siteSetting.findUnique({
+      where: { key: "deliveryFee" },
+    });
 
-  if (!setting?.value) return 0;
-  return parseCartPrice(setting.value as string | number);
+    if (!setting?.value) return 0;
+    return parseCartPrice(setting.value as string | number);
+  } catch (error) {
+    console.warn(
+      "[orders] deliveryFee fallback 0:",
+      error instanceof Error ? error.message : error
+    );
+    return 0;
+  }
+}
+
+/** Busca producto real: id → slug en productId → slug explícito. */
+async function findProductForOrderItem(
+  item: ValidatedOrderInput["items"][number]
+): Promise<Product | null> {
+  if (item.productId) {
+    const byId = await prisma.product.findFirst({
+      where: { id: item.productId, ...ACTIVE_PRODUCT },
+    });
+    if (byId) return byId;
+
+    const productIdAsSlug = await prisma.product.findFirst({
+      where: { slug: item.productId, ...ACTIVE_PRODUCT },
+    });
+    if (productIdAsSlug) return productIdAsSlug;
+  }
+
+  if (item.slug) {
+    const bySlug = await prisma.product.findFirst({
+      where: { slug: item.slug, ...ACTIVE_PRODUCT },
+    });
+    if (bySlug) return bySlug;
+  }
+
+  return null;
 }
 
 async function resolveItemPrice(item: ValidatedOrderInput["items"][number]): Promise<{
@@ -21,27 +57,19 @@ async function resolveItemPrice(item: ValidatedOrderInput["items"][number]): Pro
   name: string;
   unitPrice: Prisma.Decimal;
 }> {
-  if (item.productId) {
-    const product = await prisma.product.findFirst({
-      where: {
-        id: item.productId,
-        active: true,
-        available: true,
-      },
-    });
+  const product = await findProductForOrderItem(item);
 
-    if (product) {
-      return {
-        productId: product.id,
-        name: product.name,
-        unitPrice: product.price,
-      };
-    }
+  if (product) {
+    return {
+      productId: product.id,
+      name: product.name,
+      unitPrice: product.price,
+    };
   }
 
   const safePrice = Math.max(0, item.unitPrice);
   return {
-    productId: item.productId,
+    productId: undefined,
     name: item.name,
     unitPrice: new Prisma.Decimal(safePrice.toFixed(2)),
   };
