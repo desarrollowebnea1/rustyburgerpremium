@@ -1,48 +1,59 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MotionHeroCollage } from "@/components/motion/MotionHeroCollage";
 import { useHomeMotion } from "@/context/HomeMotionContext";
 import { useHorizontalHomeScroll } from "@/hooks/useHorizontalHomeScroll";
+import { HOME_PANEL_IDS } from "@/lib/home-panels";
 import { HomePanelProducts } from "./panels/HomePanelProducts";
 import { HomePanelPromo } from "./panels/HomePanelPromo";
 import { HomePanelLocal } from "./panels/HomePanelLocal";
 import { HomePanelClose } from "./panels/HomePanelClose";
 
 const PANELS = [
-  { id: "hero", content: <MotionHeroCollage /> },
-  { id: "products", content: <HomePanelProducts /> },
-  { id: "promo", content: <HomePanelPromo /> },
-  { id: "local", content: <HomePanelLocal /> },
-  { id: "close", content: <HomePanelClose /> },
+  { id: "hero" as const, content: <MotionHeroCollage /> },
+  { id: "products" as const, content: <HomePanelProducts /> },
+  { id: "promo" as const, content: <HomePanelPromo /> },
+  { id: "local" as const, content: <HomePanelLocal /> },
+  { id: "close" as const, content: <HomePanelClose /> },
 ] as const;
 
 export function HorizontalHome() {
   const wrapperRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const { setScrollProgress } = useHomeMotion();
+  const { setScrollProgress, registerPanelNavigator } = useHomeMotion();
 
-  useHorizontalHomeScroll(wrapperRef, trackRef, { onProgress: setScrollProgress });
+  useHorizontalHomeScroll(wrapperRef, trackRef, {
+    onProgress: setScrollProgress,
+    onRegisterNavigator: (navigate) => registerPanelNavigator(navigate),
+  });
+
+  useEffect(() => {
+    return () => registerPanelNavigator(null);
+  }, [registerPanelNavigator]);
 
   return (
-    <>
-      <section ref={wrapperRef} className="horizontal-home relative w-full" aria-label="Rusty Burger canvas">
-        <div className="horizontal-home-pin h-[100svh] w-full overflow-hidden">
-          <div
-            ref={trackRef}
-            className="horizontal-track flex h-[100svh] w-max will-change-transform"
-          >
-            {PANELS.map((panel) => (
-              <div
-                key={panel.id}
-                className="horizontal-panel relative h-[100svh] w-screen max-w-[100vw] flex-shrink-0 overflow-hidden"
-              >
-                {panel.content}
-              </div>
-            ))}
-          </div>
+    <section ref={wrapperRef} className="horizontal-home relative w-full" aria-label="Rusty Burger canvas">
+      <div className="horizontal-home-pin h-[100svh] w-full overflow-hidden">
+        <div
+          ref={trackRef}
+          className="horizontal-track flex h-[100svh] w-max will-change-transform"
+        >
+          {PANELS.map((panel) => (
+            <div
+              key={panel.id}
+              id={`home-panel-${panel.id}`}
+              data-panel-id={panel.id}
+              className="horizontal-panel relative h-[100svh] w-screen max-w-[100vw] flex-shrink-0 overflow-hidden"
+            >
+              {panel.content}
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
+
+// Re-export for consumers that need panel order
+export { HOME_PANEL_IDS };

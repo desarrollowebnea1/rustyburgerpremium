@@ -36,7 +36,7 @@ export const ASSETS = {
 export const NAV_LINKS = [
   { href: "/menu", label: "MENU" },
   { href: "/promos", label: "PROMOS" },
-  { href: "/nosotros", label: "NOSOTROS" },
+  { href: "/nosotros", label: "EXPERIENCIA" },
   { href: "/sucursal", label: "SUCURSAL" },
   { href: "/faqs", label: "FAQS" },
 ] as const;
