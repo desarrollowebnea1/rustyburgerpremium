@@ -7,22 +7,14 @@ import {
   WHATSAPP_URL,
 } from "@/lib/constants";
 import { homePanelHref } from "@/lib/home-panels";
+import { RustyLogoMark } from "@/components/ui/RustyLogoMark";
 
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-rusty-orange bg-rusty-smoke">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-4">
         <div>
-          <Link
-            href="/"
-            className="inline-block font-condensed text-2xl font-bold uppercase tracking-[-0.04em] md:text-3xl"
-            aria-label="Rusty Burger inicio"
-          >
-            <span className="text-rusty-orange [text-shadow:0_2px_14px_rgba(241,135,0,0.35)]">
-              RUSTY
-            </span>
-            <span className="text-rusty-cream"> BURGER</span>
-          </Link>
+          <RustyLogoMark size="md" href="/" />
         </div>
 
         <div>

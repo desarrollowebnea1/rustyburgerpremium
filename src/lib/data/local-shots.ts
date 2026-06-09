@@ -8,26 +8,18 @@ export const BARRA_SHOT: LocalImage = {
   alt: "Rusty Food House — fachada del local",
 };
 
-/** Carteles encuadrados 4:3 — mismo tratamiento que la foto del local */
+/** 3 stickers limpios — PNG transparente, sin fondo de madera */
 export const CARTELES_SHOTS: LocalImage[] = [
   {
-    src: "/rusty/local/carteles/framed-sticker-feast-mode.jpg",
+    src: "/rusty/stickers/sticker-feast-mode.png?v=8",
     alt: "Sticker Feast Mode On",
   },
   {
-    src: "/rusty/local/carteles/framed-sticker-r-fire.jpg",
+    src: "/rusty/stickers/sticker-r-fire.png?v=8",
     alt: "Sticker La R",
   },
   {
-    src: "/rusty/local/carteles/framed-sticker-zero-regrets.jpg",
+    src: "/rusty/stickers/sticker-zero-regrets.png?v=8",
     alt: "Sticker Zero Regrets",
-  },
-  {
-    src: "/rusty/local/carteles/framed-sticker-trotamundo.jpg",
-    alt: "Sticker Rusty Burger Trotamundo",
-  },
-  {
-    src: "/rusty/local/carteles/framed-sticker-rustypremium.jpg",
-    alt: "Sticker Rusty Premium",
   },
 ];

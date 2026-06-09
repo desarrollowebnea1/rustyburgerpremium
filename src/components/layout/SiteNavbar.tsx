@@ -1,11 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ASSETS, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import { RustyLogoMark } from "@/components/ui/RustyLogoMark";
 import { useHomeMotion } from "@/context/HomeMotionContext";
 import { HOME_NAV_LINKS } from "@/lib/home-panels";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
@@ -56,19 +55,9 @@ export function SiteNavbar() {
                 ))}
           </nav>
 
-          <Link
-            href="/"
-            className="relative z-50 flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
-          >
-            <Image
-              src={ASSETS.logo}
-              alt="Rusty Burger"
-              width={120}
-              height={48}
-              className="h-9 w-auto md:h-11"
-              priority
-            />
-          </Link>
+          <div className="relative z-50 flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+            <RustyLogoMark size="sm" href="/" />
+          </div>
 
           <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
             {isHome

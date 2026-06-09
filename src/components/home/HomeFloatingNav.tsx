@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useHomeMotion, type HomePanelId } from "@/context/HomeMotionContext";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { RustyLogoMark } from "@/components/ui/RustyLogoMark";
 
 type NavTheme = "light" | "dark" | "promo";
 
@@ -26,11 +27,6 @@ export function HomeFloatingNav() {
     theme === "light"
       ? "rounded-full bg-[#F1EFE8]/78 px-3 py-1.5 shadow-[0_8px_28px_rgba(0,0,0,0.08)] backdrop-blur-sm"
       : "rounded-full bg-rusty-carbon/72 px-3 py-1.5 shadow-[0_8px_28px_rgba(0,0,0,0.45)] ring-1 ring-rusty-cream/12 backdrop-blur-md";
-
-  const burgerClass =
-    theme === "light"
-      ? "text-[#0A0A0A] [text-shadow:0_1px_0_rgba(255,255,255,0.5)]"
-      : "text-rusty-cream [text-shadow:0_2px_16px_rgba(0,0,0,0.55)]";
 
   const ctaClass =
     theme === "light"
@@ -54,13 +50,13 @@ export function HomeFloatingNav() {
       >
         <Link
           href="/"
-          className={`pointer-events-auto font-condensed text-[1.125rem] font-bold uppercase tracking-[-0.04em] transition-colors duration-500 md:text-[1.25rem] ${logoShell}`}
+          className={`pointer-events-auto transition-colors duration-500 ${logoShell}`}
           aria-label="Rusty Burger inicio"
         >
-          <span className="text-rusty-orange [text-shadow:0_2px_14px_rgba(241,135,0,0.35)]">
-            RUSTY
-          </span>
-          <span className={burgerClass}> BURGER</span>
+          <RustyLogoMark
+            size="sm"
+            tone={theme === "light" ? "light" : "dark"}
+          />
         </Link>
 
         <div className="pointer-events-auto flex items-center gap-4">

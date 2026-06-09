@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  ASSETS,
   INSTAGRAM_HANDLE,
   INSTAGRAM_URL,
   NAV_LINKS,
@@ -12,19 +10,16 @@ import {
   WHATSAPP_URL,
 } from "@/lib/constants";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
+import { RustyLogoMark } from "@/components/ui/RustyLogoMark";
 
 export function RustyFooter() {
   return (
     <footer className="relative overflow-hidden border-t-[3px] border-rusty-orange bg-rusty-carbon">
       <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-4 lg:py-20">
         <div className="lg:col-span-2">
-          <Image
-            src={ASSETS.logo}
-            alt="Rusty Burger"
-            width={200}
-            height={80}
-            className="mb-6 h-auto w-44 md:w-56"
-          />
+          <div className="mb-6">
+            <RustyLogoMark size="lg" href="/" />
+          </div>
           <p className="max-w-sm text-rusty-cream/60">
             {SITE.tagline} — dark kitchen, smash brutal, calle y naranja.
           </p>

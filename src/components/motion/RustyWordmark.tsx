@@ -58,12 +58,13 @@ export function RustyWordmark({
     return () => ro.disconnect();
   }, [scaleX, scaleY, typoStyle.fontSize]);
 
-  const fireActive = interactive && !reduced && hovered;
+  const fireEnabled = interactive && !reduced;
+  const fireIntensity = hovered ? 1 : 0.38;
 
   return (
     <motion.div
       className="relative inline-block"
-      onHoverStart={() => interactive && !reduced && setHovered(true)}
+      onHoverStart={() => fireEnabled && setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       whileHover={
         interactive && !reduced
@@ -72,12 +73,17 @@ export function RustyWordmark({
       }
       style={{ transformOrigin: "left bottom" }}
     >
-      {fireActive && box.w > 0 && (
+      {fireEnabled && box.w > 0 && (
         <div
           className="pointer-events-none absolute z-0"
-          style={{ left: 0, top: -box.h * 0.5, width: box.w, height: box.h * 1.4 }}
+          style={{ left: -box.w * 0.04, top: -box.h * 0.62, width: box.w * 1.08, height: box.h * 1.55 }}
         >
-          <WordmarkFireBurst active width={box.w} height={box.h * 1.4} />
+          <WordmarkFireBurst
+            active
+            intensity={fireIntensity}
+            width={box.w * 1.08}
+            height={box.h * 1.55}
+          />
         </div>
       )}
 
@@ -93,7 +99,7 @@ export function RustyWordmark({
 
       <motion.h1
         ref={textRef}
-        className={`hero-vicio-wordmark hero-wordmark-interactive relative z-[1] select-none whitespace-nowrap ${fireActive ? "hero-wordmark-on-fire" : ""} ${className}`}
+        className={`hero-vicio-wordmark hero-wordmark-interactive relative z-[1] select-none whitespace-nowrap ${fireEnabled ? "hero-wordmark-on-fire" : ""} ${hovered ? "hero-wordmark-fire-hot" : ""} ${className}`}
         style={{
           ...typoStyle,
           transform: `scale(${scaleX}, ${scaleY})`,

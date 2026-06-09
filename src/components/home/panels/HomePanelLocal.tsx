@@ -35,22 +35,22 @@ function CartelesHoverCard() {
       onMouseLeave={stopCycle}
       whileHover={{ scale: 1.02 }}
     >
-      <div className="relative aspect-[4/3] w-full">
+      <div className="relative flex aspect-[4/3] w-full items-center justify-center bg-rusty-smoke/95 p-5 md:p-7">
         <AnimatePresence mode="wait">
           <motion.div
             key={shot.src}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="absolute inset-0"
+            className="relative flex h-full w-full items-center justify-center"
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={shot.src}
               alt={shot.alt}
-              fill
-              className="object-cover"
-              sizes="34vw"
+              draggable={false}
+              className="hero-sticker-3d max-h-full max-w-full object-contain"
             />
           </motion.div>
         </AnimatePresence>

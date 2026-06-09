@@ -348,13 +348,24 @@ body {
   }
 
   .hero-wordmark-on-fire .hero-wordmark-rusty {
-    filter: drop-shadow(0 0 12px rgba(255, 130, 0, 0.55))
-      drop-shadow(0 0 28px rgba(255, 90, 0, 0.28));
-    animation: rusty-fire-text-pulse 0.85s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 10px rgba(255, 120, 0, 0.42))
+      drop-shadow(0 0 22px rgba(255, 80, 0, 0.2));
+    animation: rusty-fire-text-pulse 1.1s ease-in-out infinite alternate;
+  }
+
+  .hero-wordmark-fire-hot .hero-wordmark-rusty {
+    filter: drop-shadow(0 0 18px rgba(255, 140, 0, 0.72))
+      drop-shadow(0 0 42px rgba(255, 90, 0, 0.38))
+      drop-shadow(0 0 64px rgba(255, 60, 0, 0.18));
+    animation: rusty-fire-text-pulse 0.65s ease-in-out infinite alternate;
   }
 
   .hero-wordmark-on-fire {
-    filter: drop-shadow(0 2px 18px rgba(255, 100, 0, 0.22));
+    filter: drop-shadow(0 2px 14px rgba(255, 100, 0, 0.18));
+  }
+
+  .hero-wordmark-fire-hot {
+    filter: drop-shadow(0 4px 28px rgba(255, 100, 0, 0.32));
   }
 
   @keyframes rusty-fire-text-pulse {

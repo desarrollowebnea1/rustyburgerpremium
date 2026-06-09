@@ -17,9 +17,9 @@ export type BrandStickerPlacement = {
 export const BRAND_STICKERS: BrandStickerPlacement[] = [
   {
     id: "feast-mode",
-    src: "/rusty/stickers/sticker-feast-mode.png",
-    src2x: "/rusty/stickers/sticker-feast-mode@2x.png",
-    src3x: "/rusty/stickers/sticker-feast-mode@3x.png",
+    src: "/rusty/stickers/sticker-feast-mode.png?v=8",
+    src2x: "/rusty/stickers/sticker-feast-mode@2x.png?v=8",
+    src3x: "/rusty/stickers/sticker-feast-mode@3x.png?v=8",
     alt: "Sticker Feast Mode On",
     left: "72vw",
     top: "8vh",
@@ -29,9 +29,9 @@ export const BRAND_STICKERS: BrandStickerPlacement[] = [
   },
   {
     id: "r-fire",
-    src: "/rusty/stickers/sticker-r-fire.png?v=7",
-    src2x: "/rusty/stickers/sticker-r-fire@2x.png?v=7",
-    src3x: "/rusty/stickers/sticker-r-fire@3x.png?v=7",
+    src: "/rusty/stickers/sticker-r-fire.png?v=8",
+    src2x: "/rusty/stickers/sticker-r-fire@2x.png?v=8",
+    src3x: "/rusty/stickers/sticker-r-fire@3x.png?v=8",
     alt: "Sticker R fuego",
     left: "54vw",
     top: "42vh",
@@ -41,9 +41,9 @@ export const BRAND_STICKERS: BrandStickerPlacement[] = [
   },
   {
     id: "zero-regrets",
-    src: "/rusty/stickers/sticker-zero-regrets.png",
-    src2x: "/rusty/stickers/sticker-zero-regrets@2x.png",
-    src3x: "/rusty/stickers/sticker-zero-regrets@3x.png",
+    src: "/rusty/stickers/sticker-zero-regrets.png?v=8",
+    src2x: "/rusty/stickers/sticker-zero-regrets@2x.png?v=8",
+    src3x: "/rusty/stickers/sticker-zero-regrets@3x.png?v=8",
     alt: "Sticker Zero Regrets",
     left: "64vw",
     top: "70vh",

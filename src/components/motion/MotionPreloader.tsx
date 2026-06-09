@@ -1,10 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { gsap, registerGsap } from "@/lib/gsap";
-import { ASSETS } from "@/lib/constants";
+import { RustyLogoMark } from "@/components/ui/RustyLogoMark";
 import { useHomeMotion } from "@/context/HomeMotionContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -103,14 +102,7 @@ export function MotionPreloader() {
             animate={reducedMotion ? {} : { opacity: [0.92, 1, 0.92] }}
             transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
           >
-            <Image
-              src={ASSETS.logo}
-              alt=""
-              width={240}
-              height={100}
-              className="h-auto w-full"
-              priority
-            />
+            <RustyLogoMark size="xl" tone="light" />
           </motion.div>
           <div className="relative z-10 mt-10 h-px w-32 overflow-hidden bg-[#050505]/10 md:w-40">
             <motion.div
