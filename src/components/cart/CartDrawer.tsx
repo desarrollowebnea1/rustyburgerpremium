@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/context/CartContext";
+import { useGoToHomeMenuPanel } from "@/hooks/useGoToHomeMenuPanel";
 import { formatCurrency } from "@/lib/cart-utils";
 
 export function CartDrawer() {
@@ -18,6 +19,12 @@ export function CartDrawer() {
     subtotal,
     isHydrated,
   } = useCart();
+  const goToMenuPanel = useGoToHomeMenuPanel();
+
+  function handleContinueShopping() {
+    closeCart();
+    goToMenuPanel();
+  }
 
   useEffect(() => {
     if (!isOpen) return;
@@ -77,15 +84,15 @@ export function CartDrawer() {
                 <div className="py-12 text-center">
                   <p className="font-display text-xl uppercase text-rusty-cream">Carrito vacío</p>
                   <p className="mt-2 text-sm text-rusty-cream/50">
-                    Agregá burgers desde el menú.
+                    Agregá burgers desde la colección.
                   </p>
-                  <Link
-                    href="/menu"
-                    onClick={closeCart}
-                    className="mt-6 inline-block bg-rusty-orange px-6 py-3 font-display text-xs uppercase text-rusty-carbon"
+                  <button
+                    type="button"
+                    onClick={handleContinueShopping}
+                    className="mt-6 inline-block bg-rusty-orange px-6 py-3 font-display text-xs uppercase text-rusty-carbon transition hover:bg-rusty-orangeBright"
                   >
-                    Ver menú
-                  </Link>
+                    Ver burgers
+                  </button>
                 </div>
               ) : (
                 <ul className="space-y-4">
@@ -174,7 +181,7 @@ export function CartDrawer() {
                   </Link>
                   <button
                     type="button"
-                    onClick={closeCart}
+                    onClick={handleContinueShopping}
                     className="py-2 text-center font-display text-xs uppercase tracking-wider text-rusty-cream/60 hover:text-rusty-orange"
                   >
                     Seguir comprando

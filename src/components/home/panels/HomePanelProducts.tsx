@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useCallback, useLayoutEffect, useRef } from "react";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { FEATURED_PRODUCTS } from "@/lib/data/products";
+import { featuredProductToCartInput } from "@/lib/cart-utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { WHATSAPP_URL } from "@/lib/constants";
 import { MarqueeBand } from "@/components/motion/MarqueeBand";
@@ -69,13 +71,18 @@ function ProductCard({
             {product.badge}
           </span>
         )}
-        <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[#090909] via-[#090909]/75 to-transparent px-3 pb-3 pt-12">
+        <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[#090909] via-[#090909]/85 to-transparent px-3 pb-3 pt-12">
           <h3 className="font-display text-lg uppercase leading-tight tracking-wide text-rusty-cream md:text-xl">
             {product.name}
           </h3>
           <p className="mt-0.5 font-display text-base text-rusty-orange md:text-lg">
             {product.price}
           </p>
+          <AddToCartButton
+            product={featuredProductToCartInput(product)}
+            label="Agregar"
+            className="mt-2 w-full py-2 text-[10px] tracking-[0.14em] md:text-[11px]"
+          />
         </div>
       </div>
     </motion.article>

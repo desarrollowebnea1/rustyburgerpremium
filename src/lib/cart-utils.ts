@@ -70,6 +70,23 @@ export type CartProductInput = {
   image?: string;
 };
 
+/** Mapea producto hardcodeado del panel home → input del carrito */
+export function featuredProductToCartInput(product: {
+  id: string;
+  slug: string;
+  name: string;
+  price: string;
+  image: string;
+}): CartProductInput {
+  return {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+  };
+}
+
 export function toCartItemFromProduct(product: CartProductInput, quantity = 1): CartItem {
   return {
     id: product.id,

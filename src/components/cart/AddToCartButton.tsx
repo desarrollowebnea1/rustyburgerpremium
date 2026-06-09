@@ -20,7 +20,8 @@ export function AddToCartButton({
   const { addItem, openCart } = useCart();
   const [added, setAdded] = useState(false);
 
-  function handleClick() {
+  function handleClick(e: React.MouseEvent) {
+    e.stopPropagation();
     addItem(product, 1);
     setAdded(true);
     if (openOnAdd) openCart();
