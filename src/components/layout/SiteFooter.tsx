@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
-  ASSETS,
   INSTAGRAM_HANDLE,
   INSTAGRAM_URL,
   NAV_LINKS,
@@ -15,16 +13,16 @@ export function SiteFooter() {
     <footer className="border-t-2 border-rusty-orange bg-rusty-smoke">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-4">
         <div>
-          <Image
-            src={ASSETS.logo}
-            alt="Rusty Burger"
-            width={140}
-            height={56}
-            className="mb-4 h-auto w-36"
-          />
-          <p className="text-sm text-rusty-cream/60">
-            {SITE.tagline} — burger brutal, calle y naranja.
-          </p>
+          <Link
+            href="/"
+            className="inline-block font-condensed text-2xl font-bold uppercase tracking-[-0.04em] md:text-3xl"
+            aria-label="Rusty Burger inicio"
+          >
+            <span className="text-rusty-orange [text-shadow:0_2px_14px_rgba(241,135,0,0.35)]">
+              RUSTY
+            </span>
+            <span className="text-rusty-cream"> BURGER</span>
+          </Link>
         </div>
 
         <div>
