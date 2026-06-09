@@ -8,6 +8,7 @@ import { gsap, registerGsap } from "@/lib/gsap";
 import { BrandStickersLayer } from "./BrandStickersOverlay";
 import { HeroCollageRowFixed } from "./HeroCollageRowFixed";
 import { HeroLeftEditorialFixed } from "./HeroLeftEditorialFixed";
+import { HeroMobileEditorial } from "./HeroMobileEditorial";
 import { HeroTitleFixed } from "./HeroTitleFixed";
 import { HeroVicioCanvas } from "./HeroVicioCanvas";
 
@@ -66,6 +67,10 @@ export function MotionHeroCollage({
     return () => ctx.revert();
   }, [heroPlay]);
 
+  if (layout === "vertical") {
+    return <HeroMobileEditorial play={heroPlay} />;
+  }
+
   const scaledW = HERO_CANVAS.w * scale;
   const scaledH = HERO_CANVAS.h * scale;
 
@@ -73,9 +78,7 @@ export function MotionHeroCollage({
     <section
       ref={heroRef}
       id="rusty-collage"
-      className={`hero-panel-premium relative flex w-full items-start justify-start overflow-hidden ${
-        layout === "horizontal" ? "h-full min-h-0" : "min-h-[100svh]"
-      }`}
+      className="hero-panel-premium relative flex h-full min-h-0 w-full items-start justify-start overflow-hidden"
       style={{ backgroundColor: HERO_CANVAS.bg }}
     >
       <div style={{ width: scaledW, height: scaledH, flexShrink: 0 }}>

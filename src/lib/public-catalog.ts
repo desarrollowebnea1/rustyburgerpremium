@@ -20,11 +20,13 @@ export type HomePanelProduct = {
 
 export type HomePanelPromo = {
   id: string;
+  slug: string;
   number: number;
   name: string;
   tagline: string;
   description: string;
   price: string;
+  priceRaw: string | number;
   image: string;
 };
 
@@ -71,15 +73,20 @@ export function mapApiProduct(product: ApiProduct): HomePanelProduct {
 }
 
 export function mapApiPromos(promos: ApiPromo[]): HomePanelPromo[] {
-  return promos.map((promo, index) => ({
-    id: promo.id,
-    number: index + 1,
-    name: promo.title,
-    tagline: promo.tagline ?? "",
-    description: promo.description ?? promo.tagline ?? "",
-    price: promo.price ? formatCurrency(parseCartPrice(promo.price)) : "",
-    image: promoImage(promo.imageUrl),
-  }));
+  return promos.map((promo, index) => {
+    const priceRaw = promo.price ?? "0";
+    return {
+      id: promo.id,
+      slug: promo.slug,
+      number: index + 1,
+      name: promo.title,
+      tagline: promo.tagline ?? "",
+      description: promo.description ?? promo.tagline ?? "",
+      price: promo.price ? formatCurrency(parseCartPrice(promo.price)) : "",
+      priceRaw,
+      image: promoImage(promo.imageUrl),
+    };
+  });
 }
 
 export function featuredProductsFallback(): HomePanelProduct[] {
@@ -95,7 +102,21 @@ export function featuredProductsFallback(): HomePanelProduct[] {
 }
 
 export function promosFallback(): HomePanelPromo[] {
-  return RUSTY_PROMOS;
+  return RUSTY_PROMOS.map((promo) => ({
+    ...promo,
+    slug: promo.id,
+    priceRaw: promo.price,
+  }));
+}
+
+export function homePromoToCartInput(promo: HomePanelPromo): CartProductInput {
+  return {
+    id: promo.id,
+    slug: promo.slug,
+    name: `PROMO #${promo.number} — ${promo.name}`,
+    price: promo.priceRaw,
+    imageUrl: promo.image,
+  };
 }
 
 export function homeProductToCartInput(product: HomePanelProduct): CartProductInput {

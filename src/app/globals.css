@@ -472,5 +472,13 @@ body {
     .hero-collage-piece {
       display: none;
     }
+
+    .hero-mobile-editorial .hero-collage-piece {
+      display: block;
+    }
+  }
+
+  .hero-mobile-editorial {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }

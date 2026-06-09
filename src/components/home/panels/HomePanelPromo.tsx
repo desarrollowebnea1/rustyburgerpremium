@@ -3,14 +3,46 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
+import { parseCartPrice } from "@/lib/cart-utils";
 import {
   fetchHomePromos,
+  homePromoToCartInput,
   promosFallback,
   type HomePanelPromo as PromoItem,
 } from "@/lib/public-catalog";
 
 type PanelLayout = "horizontal" | "vertical";
+
+function PromoActions({ promo, layout }: { promo: PromoItem; layout: PanelLayout }) {
+  const canAdd = parseCartPrice(promo.priceRaw) > 0;
+
+  return (
+    <div className={`mt-6 flex flex-wrap gap-3 ${layout === "vertical" ? "mt-5" : "mt-8"}`}>
+      {canAdd && (
+        <AddToCartButton
+          product={homePromoToCartInput(promo)}
+          label="AGREGAR PROMO"
+          className={
+            layout === "vertical"
+              ? "min-h-[48px] flex-1 rounded-full py-3 text-[11px] sm:flex-none"
+              : "rounded-full px-6 py-3 text-xs"
+          }
+        />
+      )}
+      <GoToMenuPanelButton
+        className={
+          layout === "vertical"
+            ? "inline-flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-rusty-cream/25 bg-transparent px-5 py-2.5 font-display text-xs uppercase tracking-wider text-rusty-cream transition hover:border-rusty-orange hover:text-rusty-orange sm:flex-none"
+            : "inline-flex items-center justify-center rounded-full border border-rusty-carbon/30 bg-transparent px-6 py-3 font-display text-sm uppercase tracking-wider text-rusty-carbon transition hover:border-rusty-carbon hover:bg-rusty-carbon/10"
+        }
+      >
+        Ver menú
+      </GoToMenuPanelButton>
+    </div>
+  );
+}
 
 function PromoArrow({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
   return (
@@ -132,11 +164,7 @@ function PromosHorizontal({ promos }: { promos: PromoItem[] }) {
               )}
             </motion.div>
           </AnimatePresence>
-          <div className="mt-8">
-            <GoToMenuPanelButton className="inline-flex items-center justify-center rounded-full bg-rusty-carbon px-7 py-3 font-display text-sm uppercase tracking-wider text-rusty-orange transition hover:bg-rusty-smoke">
-              PEDIR AHORA
-            </GoToMenuPanelButton>
-          </div>
+          <PromoActions promo={promo} layout="horizontal" />
         </div>
       </div>
     </div>
@@ -181,11 +209,7 @@ function PromosVertical({ promos }: { promos: PromoItem[] }) {
                 {promo.price && (
                   <p className="mt-3 font-display text-3xl text-rusty-orange">{promo.price}</p>
                 )}
-                <div className="mt-5">
-                  <GoToMenuPanelButton className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-rusty-orange px-7 py-3 font-display text-sm uppercase tracking-wider text-rusty-carbon transition hover:bg-rusty-orangeBright">
-                    PEDIR AHORA
-                  </GoToMenuPanelButton>
-                </div>
+                <PromoActions promo={promo} layout="vertical" />
               </div>
             </article>
           ))}
