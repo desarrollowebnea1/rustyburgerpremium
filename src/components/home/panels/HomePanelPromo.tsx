@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { WHATSAPP_URL } from "@/lib/constants";
-import { RUSTY_PROMOS, type Promo } from "@/lib/data/promos";
+import { useCallback, useEffect, useState } from "react";
+import { GoToMenuPanelButton } from "@/components/navigation/GoToMenuPanelButton";
+import {
+  fetchHomePromos,
+  promosFallback,
+  type HomePanelPromo as PromoItem,
+} from "@/lib/public-catalog";
 
 function PromoArrow({
   direction,
@@ -39,7 +42,7 @@ function PromoArrow({
   );
 }
 
-function PromoPosterFace({ promo }: { promo: Promo }) {
+function PromoPosterFace({ promo }: { promo: PromoItem }) {
   return (
     <>
       <Image
@@ -64,16 +67,37 @@ function PromoPosterFace({ promo }: { promo: Promo }) {
 }
 
 export function HomePanelPromo() {
+  const [promos, setPromos] = useState<PromoItem[]>(promosFallback);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  const promo = RUSTY_PROMOS[index];
-  const nextPromo = RUSTY_PROMOS[(index + 1) % RUSTY_PROMOS.length];
-
-  const go = useCallback((dir: -1 | 1) => {
-    setDirection(dir);
-    setIndex((i) => (i + dir + RUSTY_PROMOS.length) % RUSTY_PROMOS.length);
+  useEffect(() => {
+    let cancelled = false;
+    fetchHomePromos().then((items) => {
+      if (!cancelled) {
+        setPromos(items);
+        setIndex(0);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  const count = promos.length;
+  const promo = count > 0 ? promos[index] : null;
+  const nextPromo = count > 0 ? promos[(index + 1) % count] : null;
+
+  const go = useCallback(
+    (dir: -1 | 1) => {
+      if (count === 0) return;
+      setDirection(dir);
+      setIndex((i) => (i + dir + count) % count);
+    },
+    [count]
+  );
+
+  if (!promo || !nextPromo) return null;
 
   return (
     <div className="relative flex h-full w-full items-center overflow-hidden bg-rusty-orange">
@@ -102,12 +126,16 @@ export function HomePanelPromo() {
               whileHover={{ scale: 1.02, rotate: 0 }}
             >
               <PromoPosterFace promo={promo} />
-              <div className="absolute inset-y-0 left-2 z-20 flex items-center md:left-3">
-                <PromoArrow direction="left" onClick={() => go(-1)} />
-              </div>
-              <div className="absolute inset-y-0 right-2 z-20 flex items-center md:right-3">
-                <PromoArrow direction="right" onClick={() => go(1)} />
-              </div>
+              {count > 1 && (
+                <>
+                  <div className="absolute inset-y-0 left-2 z-20 flex items-center md:left-3">
+                    <PromoArrow direction="left" onClick={() => go(-1)} />
+                  </div>
+                  <div className="absolute inset-y-0 right-2 z-20 flex items-center md:right-3">
+                    <PromoArrow direction="right" onClick={() => go(1)} />
+                  </div>
+                </>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -127,13 +155,15 @@ export function HomePanelPromo() {
                 <br />#{promo.number}
               </h2>
               <p className="mt-4 text-lg">{promo.description}</p>
-              <p className="mt-2 font-display text-5xl md:text-6xl">{promo.price}</p>
+              {promo.price && (
+                <p className="mt-2 font-display text-5xl md:text-6xl">{promo.price}</p>
+              )}
             </motion.div>
           </AnimatePresence>
           <div className="mt-8">
-            <MagneticButton href={WHATSAPP_URL} className="!bg-rusty-carbon !text-rusty-orange">
+            <GoToMenuPanelButton className="inline-flex items-center justify-center rounded-full bg-rusty-carbon px-7 py-3 font-display text-sm uppercase tracking-wider text-rusty-orange transition hover:bg-rusty-smoke">
               PEDIR AHORA
-            </MagneticButton>
+            </GoToMenuPanelButton>
           </div>
         </div>
       </div>

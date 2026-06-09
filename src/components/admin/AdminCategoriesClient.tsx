@@ -139,14 +139,16 @@ export function AdminCategoriesClient() {
       });
       const json = (await res.json()) as { ok: boolean; error?: string };
       if (!json.ok) {
-        setError(json.error ?? "Error al guardar.");
+        setError(json.error ?? "No se pudo guardar la categoría.");
         return;
       }
-      setSuccess(editingId ? "Categoría actualizada." : "Categoría creada.");
+      setSuccess(
+        editingId ? "Categoría actualizada correctamente." : "Categoría creada correctamente."
+      );
       resetForm();
       await loadCategories();
     } catch {
-      setError("Error al guardar la categoría.");
+      setError("No se pudo guardar la categoría.");
     } finally {
       setSaving(false);
     }
@@ -166,7 +168,7 @@ export function AdminCategoriesClient() {
         setError(json.error ?? "Error al actualizar.");
         return;
       }
-      setSuccess("Estado actualizado.");
+      setSuccess("Categoría actualizada correctamente.");
       await loadCategories();
     } catch {
       setError("Error al actualizar.");
@@ -186,7 +188,7 @@ export function AdminCategoriesClient() {
         setError(json.error ?? "No se pudo eliminar.");
         return;
       }
-      setSuccess(`"${deleteTarget.name}" eliminada.`);
+      setSuccess("Categoría eliminada correctamente.");
       setDeleteTarget(null);
       await loadCategories();
     } catch {
@@ -212,12 +214,12 @@ export function AdminCategoriesClient() {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 

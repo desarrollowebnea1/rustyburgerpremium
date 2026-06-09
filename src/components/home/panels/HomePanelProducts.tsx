@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { FEATURED_PRODUCTS } from "@/lib/data/products";
-import { featuredProductToCartInput } from "@/lib/cart-utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { WHATSAPP_URL } from "@/lib/constants";
+import {
+  featuredProductsFallback,
+  fetchHomeProducts,
+  homeProductToCartInput,
+  type HomePanelProduct,
+} from "@/lib/public-catalog";
 import { MarqueeBand } from "@/components/motion/MarqueeBand";
 
 const COPIES = 3;
@@ -48,7 +52,7 @@ function ProductCard({
   product,
   index,
 }: {
-  product: (typeof FEATURED_PRODUCTS)[number];
+  product: HomePanelProduct;
   index: number;
 }) {
   return (
@@ -76,10 +80,10 @@ function ProductCard({
             {product.name}
           </h3>
           <p className="mt-0.5 font-display text-base text-rusty-orange md:text-lg">
-            {product.price}
+            {product.priceLabel}
           </p>
           <AddToCartButton
-            product={featuredProductToCartInput(product)}
+            product={homeProductToCartInput(product)}
             label="Agregar"
             className="mt-2 w-full py-2 text-[10px] tracking-[0.14em] md:text-[11px]"
           />
@@ -92,9 +96,20 @@ function ProductCard({
 export function HomePanelProducts() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const loopingRef = useRef(false);
+  const [products, setProducts] = useState<HomePanelProduct[]>(featuredProductsFallback);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchHomeProducts().then((items) => {
+      if (!cancelled) setProducts(items);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const loopedProducts = Array.from({ length: COPIES }, (_, copy) =>
-    FEATURED_PRODUCTS.map((p) => ({ ...p, loopKey: `${copy}-${p.id}` }))
+    products.map((p) => ({ ...p, loopKey: `${copy}-${p.id}` }))
   ).flat();
 
   const getSetWidth = useCallback(() => {
@@ -122,10 +137,10 @@ export function HomePanelProducts() {
 
   useLayoutEffect(() => {
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el || products.length === 0) return;
     const setW = el.scrollWidth / COPIES;
-    el.scrollLeft = setW;
-  }, []);
+    if (setW > 0) el.scrollLeft = setW;
+  }, [products]);
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;

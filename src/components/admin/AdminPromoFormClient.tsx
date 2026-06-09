@@ -139,15 +139,15 @@ export function AdminPromoFormClient({ promoId }: { promoId?: string }) {
       });
       const json = (await res.json()) as { ok: boolean; error?: string; data?: { promo: { id: string } } };
       if (!json.ok) {
-        setError(json.error ?? "Error al guardar.");
+        setError(json.error ?? "No se pudo guardar la promo.");
         return;
       }
-      setSuccess(isEdit ? "Promoción actualizada." : "Promoción creada.");
+      setSuccess(isEdit ? "Promo actualizada correctamente." : "Promo creada correctamente.");
       if (!isEdit && json.data?.promo.id) {
         router.push(`/admin/promos/${json.data.promo.id}`);
       }
     } catch {
-      setError("Error al guardar la promoción.");
+      setError("No se pudo guardar la promo.");
     } finally {
       setSaving(false);
     }
@@ -176,12 +176,12 @@ export function AdminPromoFormClient({ promoId }: { promoId?: string }) {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 

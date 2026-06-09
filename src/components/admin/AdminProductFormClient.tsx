@@ -184,15 +184,15 @@ export function AdminProductFormClient({ productId }: { productId?: string }) {
       });
       const json = (await res.json()) as { ok: boolean; error?: string; data?: { product: { id: string } } };
       if (!json.ok) {
-        setError(json.error ?? "Error al guardar.");
+        setError(json.error ?? "No se pudo guardar el producto.");
         return;
       }
-      setSuccess(isEdit ? "Producto actualizado." : "Producto creado.");
+      setSuccess(isEdit ? "Producto actualizado correctamente." : "Producto creado correctamente.");
       if (!isEdit && json.data?.product.id) {
         router.push(`/admin/productos/${json.data.product.id}`);
       }
     } catch {
-      setError("Error al guardar el producto.");
+      setError("No se pudo guardar el producto.");
     } finally {
       setSaving(false);
     }
@@ -224,12 +224,12 @@ export function AdminProductFormClient({ productId }: { productId?: string }) {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 

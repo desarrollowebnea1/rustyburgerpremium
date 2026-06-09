@@ -131,12 +131,12 @@ export function AdminSettingsClient() {
       });
       const json = (await res.json()) as { ok: boolean; error?: string };
       if (!json.ok) {
-        setError(json.error ?? "Error al guardar.");
+        setError(json.error ?? "No se pudo guardar la configuración.");
         return;
       }
       setSuccess("Configuración guardada correctamente.");
     } catch {
-      setError("Error al guardar la configuración.");
+      setError("No se pudo guardar la configuración.");
     } finally {
       setSaving(false);
     }
@@ -161,12 +161,12 @@ export function AdminSettingsClient() {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 

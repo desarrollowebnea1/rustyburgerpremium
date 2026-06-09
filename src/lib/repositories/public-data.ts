@@ -77,7 +77,7 @@ export async function getActiveProductsFiltered(filters: ProductListFilters = {}
 
   return prisma.product.findMany({
     where,
-    orderBy: { sortOrder: "asc" },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     include: {
       category: {
         select: { id: true, name: true, slug: true },
@@ -106,7 +106,7 @@ export async function getActivePromos(): Promise<Promo[]> {
         { startsAt: { lte: now }, endsAt: { gte: now } },
       ],
     },
-    orderBy: { sortOrder: "asc" },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
   });
 }
 

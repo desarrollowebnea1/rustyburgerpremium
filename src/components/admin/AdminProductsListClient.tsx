@@ -106,7 +106,7 @@ export function AdminProductsListClient() {
         setError(json.error ?? "Error al actualizar.");
         return;
       }
-      setSuccess("Producto actualizado.");
+      setSuccess("Producto actualizado correctamente.");
       await loadProducts();
     } catch {
       setError("Error al actualizar el producto.");
@@ -127,7 +127,7 @@ export function AdminProductsListClient() {
         setError(json.error ?? "No se pudo eliminar.");
         return;
       }
-      setSuccess(`"${deleteTarget.name}" eliminado.`);
+      setSuccess("Producto eliminado correctamente.");
       setDeleteTarget(null);
       await loadProducts();
     } catch {
@@ -198,12 +198,12 @@ export function AdminProductsListClient() {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 

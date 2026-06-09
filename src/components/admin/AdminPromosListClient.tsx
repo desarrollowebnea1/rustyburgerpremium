@@ -92,7 +92,7 @@ export function AdminPromosListClient() {
         setError(json.error ?? "No se pudo eliminar.");
         return;
       }
-      setSuccess(`"${deleteTarget.title}" eliminada.`);
+      setSuccess("Promo eliminada correctamente.");
       setDeleteTarget(null);
       await loadPromos();
     } catch {
@@ -123,12 +123,12 @@ export function AdminPromosListClient() {
 
       {error && (
         <div className="mt-6">
-          <AdminAlert type="error" message={error} />
+          <AdminAlert type="error" message={error} onDismiss={() => setError(null)} />
         </div>
       )}
       {success && (
         <div className="mt-6">
-          <AdminAlert type="success" message={success} />
+          <AdminAlert type="success" message={success} onDismiss={() => setSuccess(null)} />
         </div>
       )}
 
