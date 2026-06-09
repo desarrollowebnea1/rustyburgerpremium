@@ -9,7 +9,8 @@ loadEnvFile(".env.local");
 loadEnvFile(".env");
 
 const REQUIRED = [
-  { key: "DATABASE_URL", hint: "PostgreSQL / Neon" },
+  { key: "DATABASE_URL", hint: "PostgreSQL / Neon (pooled en Vercel)" },
+  { key: "DIRECT_DATABASE_URL", hint: "Neon direct (sin -pooler) para migraciones" },
   { key: "JWT_SECRET", hint: "Sesión admin" },
   { key: "ADMIN_EMAIL", hint: "Admin seed / login E2E" },
   { key: "ADMIN_PASSWORD", hint: "Admin seed / login E2E" },

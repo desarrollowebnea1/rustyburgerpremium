@@ -14,6 +14,12 @@ if (!process.env.DATABASE_URL?.trim()) {
   process.exit(1);
 }
 
+if (!process.env.DIRECT_DATABASE_URL?.trim()) {
+  console.error("\n❌ DIRECT_DATABASE_URL no definida en .env.local");
+  console.error("En Neon: usá la connection string DIRECT (sin -pooler) para migraciones.\n");
+  process.exit(1);
+}
+
 function run(cmd, args) {
   console.log(`\n▶ ${cmd} ${args.join(" ")}\n`);
   const result = spawnSync(cmd, args, { stdio: "inherit", shell: true, env: process.env });

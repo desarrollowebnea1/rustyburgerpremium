@@ -25,6 +25,13 @@ run("prisma generate", "npx", ["prisma", "generate"]);
 const hasDb = Boolean(process.env.DATABASE_URL?.trim());
 
 if (hasDb) {
+  if (!process.env.DIRECT_DATABASE_URL?.trim()) {
+    console.error(
+      "\n❌ DIRECT_DATABASE_URL no definida. En Neon agregá la URL direct (sin -pooler) en Vercel.\n"
+    );
+    process.exit(1);
+  }
+
   run("prisma migrate deploy", "npx", ["prisma", "migrate", "deploy"]);
 
   const hasAdmin =
