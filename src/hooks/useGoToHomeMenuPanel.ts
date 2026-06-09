@@ -15,6 +15,6 @@ export function useGoToHomeMenuPanel() {
       scrollToPanel("products");
       return;
     }
-    router.push("/#menu");
+    router.push("/?panel=products");
   }, [pathname, router, scrollToPanel]);
 }

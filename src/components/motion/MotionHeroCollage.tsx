@@ -11,7 +11,11 @@ import { HeroLeftEditorialFixed } from "./HeroLeftEditorialFixed";
 import { HeroTitleFixed } from "./HeroTitleFixed";
 import { HeroVicioCanvas } from "./HeroVicioCanvas";
 
-export function MotionHeroCollage() {
+export function MotionHeroCollage({
+  layout = "vertical",
+}: {
+  layout?: "horizontal" | "vertical";
+}) {
   const { heroPlay } = useHomeMotion();
   const heroRef = useRef<HTMLElement>(null);
   const scale = useHeroCanvasScale();
@@ -69,7 +73,9 @@ export function MotionHeroCollage() {
     <section
       ref={heroRef}
       id="rusty-collage"
-      className="hero-panel-premium relative flex min-h-[100svh] w-full items-start justify-start overflow-hidden"
+      className={`hero-panel-premium relative flex w-full items-start justify-start overflow-hidden ${
+        layout === "horizontal" ? "h-full min-h-0" : "min-h-[100svh]"
+      }`}
       style={{ backgroundColor: HERO_CANVAS.bg }}
     >
       <div style={{ width: scaledW, height: scaledH, flexShrink: 0 }}>

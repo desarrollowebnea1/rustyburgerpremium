@@ -37,10 +37,10 @@ export const HOME_PROGRESS_PANELS = [
   { label: "FAQs" },
 ] as const;
 
-/** URL de la home con sección vertical */
+/** URL universal: ?panel= en desktop, hash en mobile — ambos resueltos en HomePanelFromUrl */
 export function homePanelHref(panelId: HomePanelId): string {
   if (panelId === "hero") return "/";
-  return `/#${HOME_SECTION_ANCHORS[panelId]}`;
+  return `/?panel=${panelId}`;
 }
 
 /** Navegación interna de la home vertical */

@@ -1,32 +1,47 @@
+import { HomeFloatingNav } from "@/components/home/HomeFloatingNav";
+import { HomeHorizontalNav } from "@/components/home/HomeHorizontalNav";
 import { SiteNavbar } from "./SiteNavbar";
 import { SiteFooter } from "./SiteFooter";
 import { RustyFooter } from "./RustyFooter";
-import { HomeHorizontalNav } from "@/components/home/HomeHorizontalNav";
 
 type PageShellProps = {
   children: React.ReactNode;
   footer?: "default" | "rusty";
-  /** Home vertical — navbar + footer premium, sin barra inferior flotante */
-  verticalHome?: boolean;
+  /** Home responsive: horizontal lg+ / vertical mobile */
+  responsiveHome?: boolean;
 };
 
 export function PageShell({
   children,
   footer = "default",
-  verticalHome = false,
+  responsiveHome = false,
 }: PageShellProps) {
+  if (responsiveHome) {
+    return (
+      <>
+        <div className="hidden lg:block">
+          <HomeFloatingNav />
+        </div>
+        <div className="lg:hidden">
+          <SiteNavbar />
+        </div>
+        <main className="overflow-x-hidden">{children}</main>
+        <div className="lg:hidden">
+          <RustyFooter />
+        </div>
+        <div className="hidden lg:block">
+          <HomeHorizontalNav />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <SiteNavbar />
       <main className="min-h-screen overflow-x-hidden">{children}</main>
-      {verticalHome ? (
-        <RustyFooter />
-      ) : footer === "rusty" ? (
-        <RustyFooter />
-      ) : (
-        <SiteFooter />
-      )}
-      {!verticalHome && <HomeHorizontalNav />}
+      {footer === "rusty" ? <RustyFooter /> : <SiteFooter />}
+      <HomeHorizontalNav />
     </>
   );
 }

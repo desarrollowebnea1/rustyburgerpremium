@@ -10,12 +10,14 @@ import { HomePanelPromo } from "./panels/HomePanelPromo";
 import { HomePanelLocal } from "./panels/HomePanelLocal";
 import { HomePanelClose } from "./panels/HomePanelClose";
 
+const LAYOUT = "vertical" as const;
+
 const SECTIONS = [
-  { id: "hero" as const, content: <MotionHeroCollage /> },
-  { id: "products" as const, content: <HomePanelProducts /> },
-  { id: "promo" as const, content: <HomePanelPromo /> },
-  { id: "local" as const, content: <HomePanelLocal /> },
-  { id: "close" as const, content: <HomePanelClose /> },
+  { id: "hero" as const, content: <MotionHeroCollage layout={LAYOUT} /> },
+  { id: "products" as const, content: <HomePanelProducts layout={LAYOUT} /> },
+  { id: "promo" as const, content: <HomePanelPromo layout={LAYOUT} /> },
+  { id: "local" as const, content: <HomePanelLocal layout={LAYOUT} /> },
+  { id: "close" as const, content: <HomePanelClose layout={LAYOUT} /> },
 ] as const;
 
 export function HomeVertical() {

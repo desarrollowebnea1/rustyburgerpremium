@@ -63,7 +63,16 @@ export function HomeMotionProvider({ children }: { children: React.ReactNode }) 
       return;
     }
 
-    // Fallback si el hook vertical aún no registró el navigator
+    // Fallback sin navigator registrado
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (isDesktop) {
+      const track = document.querySelector<HTMLElement>(".horizontal-track");
+      if (track) {
+        track.scrollTo({ left: idx * track.clientWidth, behavior: "smooth" });
+      }
+      return;
+    }
+
     const anchor = panelIdToAnchor(panelId);
     const el = document.getElementById(anchor);
     if (el) {
